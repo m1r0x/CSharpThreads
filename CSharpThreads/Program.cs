@@ -9,6 +9,7 @@ namespace CSharpThreads
 {
     class Program
     {
+        static object Locker = new object();
         static void Main(string[] args)
         {
             Thread t = new Thread(MyThread1);
@@ -27,7 +28,9 @@ namespace CSharpThreads
         static void MyThread1()
         {
             for (int i = 0; i < 500; i++)
-            {
+
+                lock (Locker)
+                {
                 Console.WriteLine("Thread 1A counts: " + Counter);
                 Counter++;
                 Console.WriteLine("Thread 1B counts: " + Counter);
@@ -37,7 +40,9 @@ namespace CSharpThreads
         static void MyThread2()
         {
             for (int i = 0; i < 500; i++)
-            {
+
+                lock (Locker)
+                {
                 Console.WriteLine("Thread 2A counts: " + Counter);
                 Counter++;
                 Console.WriteLine("Thread 2B counts: " + Counter);
